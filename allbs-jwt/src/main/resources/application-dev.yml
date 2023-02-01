@@ -5,23 +5,14 @@ spring:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: ${MYSQL_USER:root}
-      password: ${PASS_COMMON_2:123456}
-      url: jdbc:mysql://${MYSQL_HOST:allbs-mysql}:${MYSQL_PORT:3306}/${MYSQL_DB:authorization_demo}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true&allowPublicKeyRetrieval=true
+      password: ${PASS_GDKY:123456}
+      url: jdbc:mysql://${MYSQL_HOST:lyc-server-mysql}:${MYSQL_PORT:3306}/${MYSQL_DB:authorization_demo}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true&allowPublicKeyRetrieval=true
       stat-view-servlet:
         enabled: true
         url-pattern: /druid/*
-  redis:
-    database: 2
-    host: ${REDIS_HOST_DEV:127.0.0.1}
-    port: 6379
-    password: ${REDIS_PWD_DEV:123456}
-    timeout: 5000
-    lettuce:
-      pool:
-        min-idle: 2
 # mybatis plus 配置
 mybatis-plus:
-  mapper-locations: classpath*:mapper/*/*.xml
+  mapper-locations: classpath*:mapper/*.xml
   global-config:
     banner: false
     db-config:
