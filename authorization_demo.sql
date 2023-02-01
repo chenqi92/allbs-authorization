@@ -1,184 +1,19 @@
-# 系统权限
-## 说明
+/*
+ Navicat Premium Data Transfer
 
-- 功能权限（就是常用的RBAC那一套，登录->控制到按钮级别的权限系统）
-- 数据权限 (根据不用用户，如一个园区分为多家企业，每家企业看到的数据内容不同，园区内不同领导分管不同的多家企业)
+ Source Server         : 114.116.247.121
+ Source Server Type    : MySQL
+ Source Server Version : 50727
+ Source Host           : 114.116.247.121:3306
+ Source Schema         : authorization_demo
 
-## 功能权限
+ Target Server Type    : MySQL
+ Target Server Version : 50727
+ File Encoding         : 65001
 
-### 权限框架
+ Date: 01/02/2023 15:32:37
+*/
 
-#### spring security
-
-##### 自定义security策略，初步的权限校验，拦截所有的请求，swagger页面和接口无法访问
-
-```java
-@Configuration
-@EnableWebSecurity
-@RequiredArgsConstructor
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                // 跨域检测
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                // 对任何请求都进行权限验证
-                .anyRequest().authenticated()
-                ;
-    }
-}
-```
-
-##### 指定页面放开
-
-以swagger和阿里druid连接池监控工具为例，添加以下内容后，swagger内容将正常显示
-
-```java
-@Configuration
-@EnableWebSecurity
-@RequiredArgsConstructor
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        // @formatter:off
-        http
-                .authorizeRequests()
-                // 跨域检测
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                // 放行的url
-                .antMatchers("/v3/api-docs/**", "/webjars/**", "/druid/**", "/configuration/ui", "/swagger-resources/**", "/css/**", "/js/**", "/plugins/**", "/favicon.ico", "/doc.html", "/static/**").permitAll()
-                // 对任何请求都进行权限验证
-                .anyRequest().authenticated()
-        ;
-        // @formatter:on
-    }
-}
-```
-
-![image-20230201141211528](https://nas.allbs.cn:9006/cloudpic/2023/02/d277c2a17bf657778605feab47a593f2.png)
-
-##### 将写死的需要放开的url添加至yml中
-
-```yaml
-# 配置的url
-security:
-  ignore-urls:
-    - /v3/api-docs/**
-    - /doc.html
-    - /webjars/**
-    - /druid/**
-    - /static/**
-    - /configuration/ui
-    - /swagger-resources/**
-
-```
-
-```java
-// 获取配置url内容
-@Slf4j
-@Configuration
-@RequiredArgsConstructor
-@ConditionalOnExpression("!'${security.ignore-urls}'.isEmpty()")
-@ConfigurationProperties(prefix = "security")
-public class PermitAllUrlProperties implements InitializingBean {
-
-    private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
-
-    private final WebApplicationContext applicationContext;
-
-    @Getter
-    @Setter
-    private List<String> ignoreUrls = new ArrayList<>();
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        RequestMappingHandlerMapping mapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
-        Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
-
-        map.keySet().forEach(info -> {
-            HandlerMethod handlerMethod = map.get(info);
-        });
-    }
-}
-```
-
-```java
-// 在开放配置中添加上述配置的url
-@Configuration
-@EnableWebSecurity
-@RequiredArgsConstructor
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private final PermitAllUrlProperties permitAllUrlProperties;
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        // @formatter:off
-        // 防止iframe内容无法展示
-        http.headers().frameOptions().disable();
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>
-                .ExpressionInterceptUrlRegistry registry = http
-                .authorizeRequests();
-        // 跨域检测
-        registry.antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
-        // 忽略鉴权的请求
-        permitAllUrlProperties.getIgnoreUrls().forEach(ignoreUrl -> registry.antMatchers(ignoreUrl).permitAll());
-        // 对任何请求都进行权限验证
-        registry.anyRequest().authenticated()
-                .and().csrf().disable();
-        // @formatter:on
-    }
-}
-```
-
-##### 自定义权限验证提示编码和提示文字
-
-```java
-// 枚举异常code
-@Getter
-@RequiredArgsConstructor
-@ApiModel(description = "自定义异常code")
-public enum SystemCode implements IResultCode {
-
-    /**
-     * 自定义异常code枚举
-     */
-    FORBIDDEN_401(401, "没有访问权限");
-
-    /**
-     * code编码
-     */
-    private final int code;
-    /**
-     * 中文信息描述
-     */
-    private final String msg;
-}
-```
-
-```java
-// 处理权限验证失败的处理类
-public class Http401AuthenticationEntryPoint implements AuthenticationEntryPoint {
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        ResponseUtil.out(response, R.fail(SystemCode.FORBIDDEN_401));
-    }
-}
-```
-
-```java
-// 将自定义处理添加至配置中
-http.exceptionHandling().authenticationEntryPoint(new Http401AuthenticationEntryPoint());
-```
-
-![image-20230201151758035](https://nas.allbs.cn:9006/cloudpic/2023/02/7dbf304076b2977703179080f93e3be2.png)
-
-##### 与数据库联动
-
-```sql
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -324,7 +159,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '$2a$10$IVzj1Wd.ZQdOIWdb1htQjexU94uoNeuk1crlQ9ExVupPi0Iy1uv.C', '', '13812345678', '/admin/sys-file/lengleng/c5a85e0770cd4fe78bc14b63b3bd05ae.jpg', 1, '2023-02-01 07:15:18', '2023-02-01 16:45:23', '0', '0');
+INSERT INTO `sys_user` VALUES (1, 'admin', '$2a$10$IVzj1Wd.ZQdOIWdb1htQjexU94uoNeuk1crlQ9ExVupPi0Iy1uv.C', '', '18066081323', '/admin/sys-file/lengleng/c5a85e0770cd4fe78bc14b63b3bd05ae.jpg', 1, '2023-02-01 07:15:18', '2023-02-01 16:45:23', '0', '0');
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -342,10 +177,3 @@ CREATE TABLE `sys_user_role`  (
 INSERT INTO `sys_user_role` VALUES (1, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
-```
-
-
-
-#### oauth2.0
-
-## 数据权限
