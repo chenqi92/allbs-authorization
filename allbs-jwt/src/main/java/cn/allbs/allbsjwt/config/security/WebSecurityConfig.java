@@ -1,11 +1,11 @@
 package cn.allbs.allbsjwt.config.security;
 
+import cn.allbs.allbsjwt.config.handler.Http401AuthenticationEntryPoint;
 import cn.allbs.allbsjwt.config.handler.PermitAllUrlProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
@@ -30,6 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // @formatter:off
         // 防止iframe内容无法展示
         http.headers().frameOptions().disable();
+        // 需要权限验证的提示code和文字说明自定义
+        http.exceptionHandling().authenticationEntryPoint(new Http401AuthenticationEntryPoint());
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>
                 .ExpressionInterceptUrlRegistry registry = http
                 .authorizeRequests();
@@ -37,6 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         registry.antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
         // 忽略鉴权的请求
         permitAllUrlProperties.getIgnoreUrls().forEach(ignoreUrl -> registry.antMatchers(ignoreUrl).permitAll());
+
         // 对任何请求都进行权限验证
         registry.anyRequest().authenticated()
                 .and().csrf().disable();
