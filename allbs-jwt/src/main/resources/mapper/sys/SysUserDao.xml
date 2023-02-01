@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.allbs.allbsjwt.dao.sys.SysUserDao">
+    <resultMap type="cn.allbs.allbsjwt.entity.sys.SysUserEntity" id="SysUserMap">
+        <result property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="salt" column="salt"/>
+        <result property="phone" column="phone"/>
+        <result property="avatar" column="avatar"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="lockFlag" column="lock_flag"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+        user_id,
+        username,
+        password,
+        salt,
+        phone,
+        avatar,
+        dept_id,
+        create_time,
+        update_time,
+        lock_flag,
+        del_flag
+    </sql>
+</mapper>

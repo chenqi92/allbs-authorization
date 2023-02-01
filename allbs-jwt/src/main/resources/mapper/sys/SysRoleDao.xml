@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.allbs.allbsjwt.dao.sys.SysRoleDao">
+    <resultMap type="cn.allbs.allbsjwt.entity.sys.SysRoleEntity" id="SysRoleMap">
+        <result property="roleId" column="role_id"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleCode" column="role_code"/>
+        <result property="roleDesc" column="role_desc"/>
+        <result property="dsType" column="ds_type"/>
+        <result property="dsScope" column="ds_scope"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+        role_id,
+        role_name,
+        role_code,
+        role_desc,
+        ds_type,
+        ds_scope,
+        create_time,
+        update_time,
+        del_flag
+    </sql>
+</mapper>
