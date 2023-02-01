@@ -1,14 +1,11 @@
 package cn.allbs.allbsjwt.service.sys.impl;
 
-import cn.allbs.allbsjwt.config.vo.MenuVO;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cn.allbs.allbsjwt.dao.sys.SysMenuDao;
 import cn.allbs.allbsjwt.entity.sys.SysMenuEntity;
 import cn.allbs.allbsjwt.service.sys.SysMenuService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import lombok.AllArgsConstructor;
 
 /**
  * 菜单权限表(sys_menu)表服务实现类
@@ -21,11 +18,5 @@ import java.util.List;
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> implements SysMenuService {
 
     private final SysMenuDao sysMenuDao;
-
-    @Override
-    public List<MenuVO> findMenuByRoleId(Long roleId) {
-        // TODO 菜单根据角色添加缓存
-        return baseMapper.listMenusByRoleId(roleId);
-    }
 
 }

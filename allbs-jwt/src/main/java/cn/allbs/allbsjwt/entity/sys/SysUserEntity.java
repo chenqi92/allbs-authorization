@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -27,7 +26,7 @@ public class SysUserEntity {
 
     @TableId(value = "user_id", type = IdType.AUTO)
     @ApiModelProperty(value = "主键ID")
-    private Long userId;
+    private Integer userId;
 
     @ApiModelProperty(value = "")
     private String username;
@@ -36,7 +35,7 @@ public class SysUserEntity {
     private String password;
 
     @ApiModelProperty(value = "")
-    private transient String salt;
+    private String salt;
 
     @ApiModelProperty(value = "")
     private String phone;

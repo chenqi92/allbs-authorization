@@ -1,10 +1,12 @@
 package cn.allbs.allbsjwt.entity.sys;
 
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import com.baomidou.mybatisplus.annotation.*;
 
 /**
  * 角色菜单表(sys_role_menu)表实体类
@@ -18,6 +20,7 @@ import lombok.Data;
 public class SysRoleMenuEntity {
 
     private static final long serialVersionUID = -54783279637700944L;
+
     @ApiModelProperty(value = "角色ID")
     private Integer roleId;
 
