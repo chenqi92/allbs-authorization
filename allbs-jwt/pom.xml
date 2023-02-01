@@ -15,9 +15,8 @@
     <description>allbs-jwt</description>
     <properties>
         <java.version>1.8</java.version>
-        <allbs.version>1.1.9</allbs.version>
+        <allbs.version>1.1.8</allbs.version>
         <druid.vertsion>1.2.15</druid.vertsion>
-        <transmittable-thread.version>2.11.4</transmittable-thread.version>
     </properties>
     <dependencies>
         <dependency>
@@ -88,20 +87,6 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.allbs</groupId>
-            <artifactId>allbs-cache</artifactId>
-            <version>${allbs.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>transmittable-thread-local</artifactId>
-            <version>${transmittable-thread.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
     </dependencies>
 

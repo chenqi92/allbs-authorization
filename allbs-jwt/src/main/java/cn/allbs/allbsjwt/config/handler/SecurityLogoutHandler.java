@@ -6,7 +6,7 @@ import cn.allbs.allbsjwt.config.utils.TokenUtil;
 import cn.allbs.common.utils.ResponseUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import org.springframework.data.redis.core.RedisTemplate;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static cn.allbs.allbsjwt.config.constant.CacheConstant.CACHE_TOKEN;
 import static cn.allbs.allbsjwt.config.constant.SecurityConstant.BEARER_TYPE;
 
 /**
@@ -26,14 +25,8 @@ import static cn.allbs.allbsjwt.config.constant.SecurityConstant.BEARER_TYPE;
  * @author ChenQi
  * @since 2023/2/1 16:30
  */
+@NoArgsConstructor
 public class SecurityLogoutHandler implements LogoutHandler {
-
-    private final RedisTemplate<Object, Object> redisTemplate;
-
-    public SecurityLogoutHandler(RedisTemplate<Object, Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
-
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         // 从header 获取token
@@ -52,6 +45,6 @@ public class SecurityLogoutHandler implements LogoutHandler {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        redisTemplate.delete(CACHE_TOKEN + token);
+        // TODO redis 中删除相关token
     }
 }

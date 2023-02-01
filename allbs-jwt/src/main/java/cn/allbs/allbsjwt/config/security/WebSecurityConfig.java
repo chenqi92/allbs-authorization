@@ -4,12 +4,10 @@ import cn.allbs.allbsjwt.config.handler.Http401AuthenticationEntryPoint;
 import cn.allbs.allbsjwt.config.handler.PasswordLogoutSuccessHandler;
 import cn.allbs.allbsjwt.config.handler.PermitAllUrlProperties;
 import cn.allbs.allbsjwt.config.handler.SecurityLogoutHandler;
-import cn.allbs.allbsjwt.config.security.service.CustomUserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -31,8 +29,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PermitAllUrlProperties permitAllUrlProperties;
 
-    private final CustomUserServiceImpl customUserService;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
@@ -51,8 +47,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         registry.and().logout().logoutUrl("/token/logout").addLogoutHandler(new SecurityLogoutHandler())
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessHandler(logoutSuccessHandler());
-        // 登录
-        registry.and().formLogin().loginPage("/token/login").permitAll();
         // 对任何请求都进行权限验证
         registry.anyRequest().authenticated()
                 .and().csrf().disable();
@@ -67,10 +61,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
         return new PasswordLogoutSuccessHandler();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserService);
     }
 }
