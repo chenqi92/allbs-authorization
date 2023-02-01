@@ -45,3 +45,12 @@ springdoc:
   packages-to-scan: cn.allbs.allbsjwt.controller
   # 配置需要生成接口文档的接口路径
   paths-to-match:
+security:
+  ignore-urls:
+    - /v3/api-docs/**
+    - /doc.html
+    - /webjars/**
+    - /druid/**
+    - /static/**
+    - /configuration/ui
+    - /swagger-resources/**

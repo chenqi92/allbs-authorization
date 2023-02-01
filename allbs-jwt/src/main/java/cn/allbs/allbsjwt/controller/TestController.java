@@ -27,9 +27,7 @@ public class TestController {
 
     @Operation(summary = "成功的方法")
     @Parameters({
-            @Parameter(name = "name", description = "这是名称的注释", required = true),
-            @Parameter(name = "count", description = "这是技术的注释", required = false),
-            @Parameter(name = "Authorization", description = "token", required = true, in = ParameterIn.HEADER),
+//            @Parameter(name = "name", description = "这是名称的注释", required = true),
     })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "查询成功")
