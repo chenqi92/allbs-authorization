@@ -1,14 +1,18 @@
 package cn.allbs.allbsjwt.config.security;
 
 import cn.allbs.allbsjwt.config.handler.Http401AuthenticationEntryPoint;
+import cn.allbs.allbsjwt.config.handler.PasswordLogoutSuccessHandler;
 import cn.allbs.allbsjwt.config.handler.PermitAllUrlProperties;
+import cn.allbs.allbsjwt.config.handler.SecurityLogoutHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 /**
  * 类 WebSecurityConfig
@@ -39,10 +43,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         registry.antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
         // 忽略鉴权的请求
         permitAllUrlProperties.getIgnoreUrls().forEach(ignoreUrl -> registry.antMatchers(ignoreUrl).permitAll());
-
+        // 登出
+        registry.and().logout().logoutUrl("/token/logout").addLogoutHandler(new SecurityLogoutHandler())
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessHandler(logoutSuccessHandler());
         // 对任何请求都进行权限验证
         registry.anyRequest().authenticated()
                 .and().csrf().disable();
         // @formatter:on
+    }
+
+    /**
+     * 登出成功处理方法
+     *
+     * @return
+     */
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        return new PasswordLogoutSuccessHandler();
     }
 }

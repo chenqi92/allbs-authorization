@@ -21,7 +21,10 @@ public enum SystemCode implements IResultCode {
     /**
      * 自定义异常code枚举
      */
-    FORBIDDEN_401(401, "没有访问权限");
+    FORBIDDEN_401(401, "没有访问权限!"),
+
+    TOKEN_NOT_IN_SYSTEM(401, "token失效!"),
+    ;
 
     /**
      * code编码
