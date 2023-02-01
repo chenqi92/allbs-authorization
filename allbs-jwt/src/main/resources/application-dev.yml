@@ -1,0 +1,47 @@
+# mysql 连接池配置
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: ${MYSQL_USER:root}
+      password: ${MYSQL_PWD:123456}
+      url: jdbc:mysql://${MYSQL_HOST:cq-server}:${MYSQL_PORT:3306}/${MYSQL_DB:allbs}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true&allowPublicKeyRetrieval=true
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+# mybatis plus 配置
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-handlers-package: com.allbs.allbsjwt.config.handler
+# swagger3
+swagger:
+  title: jwt示例
+  description: jwt示例服务
+  version: 1.0
+  securitySchemes:
+    Authorization:
+      type: http  #类型
+      in: HEADER    #放 header 里面
+      name: Authorization # header - key
+      scheme: bearer
+
+  servers:
+    - url: http://127.0.0.1:8888 #服务器 URL
+      description: 本地服务器
+springdoc:
+  api-docs:
+    # 开启api-docs
+    enabled: true
+  # 配置需要生成接口文档的扫描包
+  packages-to-scan: cn.allbs.allbsjwt.controller
+  # 配置需要生成接口文档的接口路径
+  paths-to-match:
