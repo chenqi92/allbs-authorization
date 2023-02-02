@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Set;
 
 /**
  * 类 UserInfo
@@ -35,10 +34,4 @@ public class UserInfo implements Serializable {
      */
     @Schema(description = "角色名称标识集合", name = "roleName")
     private String[] roleName;
-
-    /**
-     * 用户关联的企业列表
-     */
-    @Schema(description = "用户关联的企业id", name = "entIds")
-    private Set<Long> entIds;
 }

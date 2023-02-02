@@ -1,5 +1,6 @@
 package cn.allbs.allbsjwt.config.exception;
 
+import cn.allbs.allbsjwt.config.enums.SystemCode;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
@@ -22,9 +23,9 @@ public class AuthorizationExceptionSerializer extends StdSerializer<Authorizatio
     @Override
     public void serialize(AuthorizationException value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
-        gen.writeObjectField("code", value.getErrorCode());
+        gen.writeObjectField("code", SystemCode.AUTHORIZATION_ERROR.getCode());
         gen.writeStringField("msg", value.getMessage());
-        gen.writeStringField("data", null);
+        gen.writeStringField("data", value.getErrorCode());
         gen.writeEndObject();
     }
 }

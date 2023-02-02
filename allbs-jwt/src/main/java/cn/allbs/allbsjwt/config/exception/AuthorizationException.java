@@ -2,7 +2,6 @@ package cn.allbs.allbsjwt.config.exception;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
-import org.springframework.security.core.AuthenticationException;
 
 /**
  * 类 AuthorizationException
@@ -12,10 +11,10 @@ import org.springframework.security.core.AuthenticationException;
  * @since 2023/2/1 17:35
  */
 @JsonSerialize(using = AuthorizationExceptionSerializer.class)
-public class AuthorizationException extends AuthenticationException {
+public class AuthorizationException extends RuntimeException {
 
     @Getter
-    private int errorCode;
+    private String errorCode;
 
     public AuthorizationException(String msg) {
         super(msg);
@@ -25,7 +24,7 @@ public class AuthorizationException extends AuthenticationException {
         super(msg, t);
     }
 
-    public AuthorizationException(String msg, int errorCode) {
+    public AuthorizationException(String msg, String errorCode) {
         super(msg);
         this.errorCode = errorCode;
     }
