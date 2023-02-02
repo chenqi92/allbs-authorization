@@ -1,8 +1,11 @@
 package cn.allbs.allbsjwt.dao.sys;
 
+import cn.allbs.allbsjwt.config.vo.MenuVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import cn.allbs.allbsjwt.entity.sys.SysMenuEntity;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * 菜单权限表(sys_menu)表数据库访问层
@@ -12,5 +15,13 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysMenuDao extends BaseMapper<SysMenuEntity> {
+
+    /**
+     * 通过角色编号查询菜单
+     *
+     * @param roleId 角色ID
+     * @return
+     */
+    List<MenuVO> listMenusByRoleId(Long roleId);
 
 }
