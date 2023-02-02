@@ -26,7 +26,7 @@ public class SysUserEntity {
 
     @TableId(value = "user_id", type = IdType.AUTO)
     @ApiModelProperty(value = "主键ID")
-    private Integer userId;
+    private Long userId;
 
     @ApiModelProperty(value = "")
     private String username;
