@@ -41,34 +41,34 @@ CREATE TABLE `sys_menu`  (
 -- Records of sys_menu
 -- ----------------------------
 INSERT INTO `sys_menu` VALUES (1000, '权限管理', NULL, '/user', -1, 'icon-quanxianguanli', 0, '0', '0', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1100, '用户管理', NULL, '/admin/user/index', 1000, 'icon-yonghuguanli', 1, '1', '0', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1101, '用户新增', 'sys_user_add', NULL, 1100, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1102, '用户修改', 'sys_user_edit', NULL, 1100, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1103, '用户删除', 'sys_user_del', NULL, 1100, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1200, '菜单管理', NULL, '/admin/menu/index', 1000, 'icon-caidanguanli', 2, '0', '0', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1201, '菜单新增', 'sys_menu_add', NULL, 1200, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1202, '菜单修改', 'sys_menu_edit', NULL, 1200, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1203, '菜单删除', 'sys_menu_del', NULL, 1200, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1300, '角色管理', NULL, '/admin/role/index', 1000, 'icon-jiaoseguanli', 3, '0', '0', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1301, '角色新增', 'sys_role_add', NULL, 1300, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1302, '角色修改', 'sys_role_edit', NULL, 1300, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1303, '角色删除', 'sys_role_del', NULL, 1300, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1304, '分配权限', 'sys_role_perm', NULL, 1300, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1400, '部门管理', NULL, '/admin/dept/index', 1000, 'icon-web-icon-', 4, '0', '0', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1401, '部门新增', 'sys_dept_add', NULL, 1400, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1402, '部门修改', 'sys_dept_edit', NULL, 1400, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1403, '部门删除', 'sys_dept_del', NULL, 1400, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1500, '租户管理', '', '/admin/tenant/index', 1000, 'icon-erji-zuhushouye', 5, '0', '0', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1501, '租户新增', 'admin_systenant_add', NULL, 1500, '1', 0, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1502, '租户修改', 'admin_systenant_edit', NULL, 1500, '1', 1, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (1503, '租户删除', 'admin_systenant_del', NULL, 1500, '1', 2, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (2000, '系统管理', NULL, '/admin', -1, 'icon-xitongguanli', 1, '0', '0', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (2100, '日志管理', NULL, '/admin/log/index', 2000, 'icon-rizhiguanli', 5, '0', '0', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (2101, '日志删除', 'sys_log_del', NULL, 2100, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (2200, '字典管理', NULL, '/admin/dict/index', 2000, 'icon-navicon-zdgl', 6, '0', '0', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (2201, '字典删除', 'sys_dict_del', NULL, 2200, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (2202, '字典新增', 'sys_dict_add', NULL, 2200, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
-INSERT INTO `sys_menu` VALUES (2203, '字典修改', 'sys_dict_edit', NULL, 2200, NULL, NULL, '0', '1', '2023-02-01 08:29:53', '2023-02-01 08:29:53', '0');
+INSERT INTO `sys_menu` VALUES (1100, '用户管理', NULL, '/admin/user/index', 1000, 'icon-yonghuguanli', 1, '1', '1', '2023-02-01 08:29:53', '2023-02-02 09:38:50', '0');
+INSERT INTO `sys_menu` VALUES (1101, '用户新增', 'sys_user_add', NULL, 1100, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:38:54', '0');
+INSERT INTO `sys_menu` VALUES (1102, '用户修改', 'sys_user_edit', NULL, 1100, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:38:54', '0');
+INSERT INTO `sys_menu` VALUES (1103, '用户删除', 'sys_user_del', NULL, 1100, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:38:54', '0');
+INSERT INTO `sys_menu` VALUES (1200, '菜单管理', NULL, '/admin/menu/index', 1000, 'icon-caidanguanli', 2, '0', '1', '2023-02-01 08:29:53', '2023-02-02 09:39:39', '0');
+INSERT INTO `sys_menu` VALUES (1201, '菜单新增', 'sys_menu_add', NULL, 1200, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:17', '0');
+INSERT INTO `sys_menu` VALUES (1202, '菜单修改', 'sys_menu_edit', NULL, 1200, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:17', '0');
+INSERT INTO `sys_menu` VALUES (1203, '菜单删除', 'sys_menu_del', NULL, 1200, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:17', '0');
+INSERT INTO `sys_menu` VALUES (1300, '角色管理', NULL, '/admin/role/index', 1000, 'icon-jiaoseguanli', 3, '0', '1', '2023-02-01 08:29:53', '2023-02-02 09:39:38', '0');
+INSERT INTO `sys_menu` VALUES (1301, '角色新增', 'sys_role_add', NULL, 1300, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:20', '0');
+INSERT INTO `sys_menu` VALUES (1302, '角色修改', 'sys_role_edit', NULL, 1300, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:20', '0');
+INSERT INTO `sys_menu` VALUES (1303, '角色删除', 'sys_role_del', NULL, 1300, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:20', '0');
+INSERT INTO `sys_menu` VALUES (1304, '分配权限', 'sys_role_perm', NULL, 1300, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:20', '0');
+INSERT INTO `sys_menu` VALUES (1400, '部门管理', NULL, '/admin/dept/index', 1000, 'icon-web-icon-', 4, '0', '1', '2023-02-01 08:29:53', '2023-02-02 09:39:36', '0');
+INSERT INTO `sys_menu` VALUES (1401, '部门新增', 'sys_dept_add', NULL, 1400, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:22', '0');
+INSERT INTO `sys_menu` VALUES (1402, '部门修改', 'sys_dept_edit', NULL, 1400, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:23', '0');
+INSERT INTO `sys_menu` VALUES (1403, '部门删除', 'sys_dept_del', NULL, 1400, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:23', '0');
+INSERT INTO `sys_menu` VALUES (1500, '租户管理', '', '/admin/tenant/index', 1000, 'icon-erji-zuhushouye', 5, '0', '1', '2023-02-01 08:29:53', '2023-02-02 09:39:34', '0');
+INSERT INTO `sys_menu` VALUES (1501, '租户新增', 'admin_systenant_add', NULL, 1500, '1', 0, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:25', '0');
+INSERT INTO `sys_menu` VALUES (1502, '租户修改', 'admin_systenant_edit', NULL, 1500, '1', 1, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:25', '0');
+INSERT INTO `sys_menu` VALUES (1503, '租户删除', 'admin_systenant_del', NULL, 1500, '1', 2, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:25', '0');
+INSERT INTO `sys_menu` VALUES (2000, '系统管理', NULL, '/admin', -1, 'icon-xitongguanli', 1, '0', '1', '2023-02-01 08:29:53', '2023-02-02 09:39:33', '0');
+INSERT INTO `sys_menu` VALUES (2100, '日志管理', NULL, '/admin/log/index', 2000, 'icon-rizhiguanli', 5, '0', '1', '2023-02-01 08:29:53', '2023-02-02 09:39:33', '0');
+INSERT INTO `sys_menu` VALUES (2101, '日志删除', 'sys_log_del', NULL, 2100, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:27', '0');
+INSERT INTO `sys_menu` VALUES (2200, '字典管理', NULL, '/admin/dict/index', 2000, 'icon-navicon-zdgl', 6, '0', '1', '2023-02-01 08:29:53', '2023-02-02 09:39:30', '0');
+INSERT INTO `sys_menu` VALUES (2201, '字典删除', 'sys_dict_del', NULL, 2200, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:29', '0');
+INSERT INTO `sys_menu` VALUES (2202, '字典新增', 'sys_dict_add', NULL, 2200, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:29', '0');
+INSERT INTO `sys_menu` VALUES (2203, '字典修改', 'sys_dict_edit', NULL, 2200, NULL, NULL, '0', '2', '2023-02-01 08:29:53', '2023-02-02 09:39:29', '0');
 
 -- ----------------------------
 -- Table structure for sys_role

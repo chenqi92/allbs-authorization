@@ -23,7 +23,9 @@ public enum SystemCode implements IResultCode {
      */
     FORBIDDEN_401(401, "没有访问权限!"),
 
-    TOKEN_NOT_IN_SYSTEM(401, "token失效!"),
+    TOKEN_NOT_IN_SYSTEM(401001, "token失效!"),
+
+    AUTHORIZATION_ERROR(401002, "权限处理逻辑出现异常!"),
     ;
 
     /**
