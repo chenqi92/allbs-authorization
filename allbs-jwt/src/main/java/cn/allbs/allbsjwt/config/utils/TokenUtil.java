@@ -1,18 +1,17 @@
 package cn.allbs.allbsjwt.config.utils;
 
 import cn.allbs.allbsjwt.config.constant.SecurityConstant;
-import cn.allbs.allbsjwt.config.security.JwtAuthenticationToken;
-import cn.allbs.allbsjwt.config.security.service.GrantedAuthorityImpl;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 类 TokenUtil
@@ -21,6 +20,7 @@ import java.util.*;
  * @author ChenQi
  * @since 2023/2/1 16:34
  */
+@Slf4j
 @UtilityClass
 public class TokenUtil {
 
@@ -53,7 +53,6 @@ public class TokenUtil {
         Map<String, Object> claims = new HashMap<>(3);
         claims.put(USERNAME, SecurityUtils.getUsername(authentication));
         claims.put(CREATED, new Date());
-//        claims.put(AUTHORITIES, authentication.getAuthorities());
         return generateToken(claims);
     }
 
@@ -86,49 +85,6 @@ public class TokenUtil {
     }
 
     /**
-     * 根据请求令牌获取登录认证信息
-     *
-     * @param request
-     * @return 用户名
-     */
-    public static Authentication getAuthenticationFromToken(HttpServletRequest request) {
-        Authentication authentication = null;
-        // 获取请求携带的令牌
-        String token = TokenUtil.getToken(request);
-        if (token != null) {
-            // 请求令牌不能为空
-            if (SecurityUtils.getAuthentication() == null) {
-                // 上下文中Authentication为空
-                Claims claims = getClaimsFromToken(token);
-                if (claims == null) {
-                    return null;
-                }
-                String username = claims.getSubject();
-                if (username == null) {
-                    return null;
-                }
-                if (isTokenExpired(token)) {
-                    return null;
-                }
-                Object authors = claims.get(AUTHORITIES);
-                List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-                if (authors instanceof List) {
-                    for (Object object : (List) authors) {
-                        authorities.add(new GrantedAuthorityImpl((String) ((Map<?, ?>) object).get("authority")));
-                    }
-                }
-                authentication = new JwtAuthenticationToken(username, null, authorities, token);
-            } else {
-                if (validateToken(token, SecurityUtils.getUsername())) {
-                    // 如果上下文中Authentication非空，且请求令牌合法，直接返回当前登录认证信息
-                    authentication = SecurityUtils.getAuthentication();
-                }
-            }
-        }
-        return authentication;
-    }
-
-    /**
      * 从令牌中获取数据声明
      *
      * @param token 令牌
@@ -154,6 +110,33 @@ public class TokenUtil {
     public static Boolean validateToken(String token, String username) {
         String userName = getUsernameFromToken(token);
         return (userName.equals(username) && !isTokenExpired(token));
+    }
+
+    /**
+     * 验证 token，返回结果
+     *
+     * <p>
+     * 如果解析失败，说明 token 是无效的
+     */
+    public static boolean validateToken(String token) {
+        if (StringUtils.isEmpty(token)) {
+            throw new RuntimeException("Miss token");
+        }
+        try {
+            Jwts.parser()
+                    .setSigningKey(SecurityConstant.SIGNING_KEY)
+                    .parseClaimsJws(token);
+            return true;
+        } catch (ExpiredJwtException e) {
+            log.warn("Request to parse expired JWT : {} failed : {}", token, e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            log.warn("Request to parse unsupported JWT : {} failed : {}", token, e.getMessage());
+        } catch (MalformedJwtException e) {
+            log.warn("Request to parse invalid JWT : {} failed : {}", token, e.getMessage());
+        } catch (IllegalArgumentException e) {
+            log.warn("Request to parse empty or null JWT : {} failed : {}", token, e.getMessage());
+        }
+        return false;
     }
 
     /**

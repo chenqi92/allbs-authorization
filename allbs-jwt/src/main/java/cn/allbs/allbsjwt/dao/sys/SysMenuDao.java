@@ -1,9 +1,10 @@
 package cn.allbs.allbsjwt.dao.sys;
 
 import cn.allbs.allbsjwt.config.vo.MenuVO;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import cn.allbs.allbsjwt.entity.sys.SysMenuEntity;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,6 +23,6 @@ public interface SysMenuDao extends BaseMapper<SysMenuEntity> {
      * @param roleId 角色ID
      * @return
      */
-    List<MenuVO> listMenusByRoleId(Long roleId);
+    List<MenuVO> listMenusByRoleId(@Param("roleId") Long roleId);
 
 }
