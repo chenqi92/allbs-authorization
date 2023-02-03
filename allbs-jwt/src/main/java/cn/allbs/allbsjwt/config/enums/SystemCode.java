@@ -26,6 +26,8 @@ public enum SystemCode implements IResultCode {
     TOKEN_NOT_IN_SYSTEM(401001, "token失效!"),
 
     AUTHORIZATION_ERROR(401002, "权限处理逻辑出现异常!"),
+
+    USERNAME_OR_PASSWORD_ERROR(401003, "用户名或密码错误"),
     ;
 
     /**
