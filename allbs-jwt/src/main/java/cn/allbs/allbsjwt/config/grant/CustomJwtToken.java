@@ -1,6 +1,5 @@
 package cn.allbs.allbsjwt.config.grant;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
@@ -22,7 +21,6 @@ public class CustomJwtToken implements Serializable {
 
     private static final long serialVersionUID = 2149134569530465633L;
 
-    @JsonIgnore
     private String value;
 
     /**

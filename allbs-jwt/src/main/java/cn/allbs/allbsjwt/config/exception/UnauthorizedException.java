@@ -1,6 +1,5 @@
 package cn.allbs.allbsjwt.config.exception;
 
-import cn.allbs.allbsjwt.config.enums.SystemCode;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
@@ -14,10 +13,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class UnauthorizedException extends AuthorizationException {
 
     public UnauthorizedException(String msg, Throwable t) {
-        super(msg, SystemCode.TOKEN_NOT_IN_SYSTEM.getCode());
+        super(msg);
     }
 
     public UnauthorizedException(String msg) {
-        super(msg, SystemCode.TOKEN_NOT_IN_SYSTEM.getCode());
+        super(msg);
     }
 }

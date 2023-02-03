@@ -37,6 +37,7 @@ public class CustomUserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // TODO 先从缓存中取数据
         UserInfo userInfo = sysUserService.findUserInfoByUserName(username);
         if (userInfo == null) {
             throw new UsernameNotFoundException("指定用户不存在!");

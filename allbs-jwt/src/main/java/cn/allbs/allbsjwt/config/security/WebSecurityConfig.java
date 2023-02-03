@@ -1,5 +1,8 @@
 package cn.allbs.allbsjwt.config.security;
 
+import cn.allbs.allbsjwt.config.filter.SecurityAuthenticationFilter;
+import cn.allbs.allbsjwt.config.filter.SecurityLoginFilter;
+import cn.allbs.allbsjwt.config.grant.CustomDaoAuthenticationProvider;
 import cn.allbs.allbsjwt.config.handler.Http401AuthenticationEntryPoint;
 import cn.allbs.allbsjwt.config.handler.PasswordLogoutSuccessHandler;
 import cn.allbs.allbsjwt.config.handler.PermitAllUrlProperties;
@@ -9,11 +12,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 /**
@@ -52,11 +57,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessHandler(logoutSuccessHandler());
         // 登录
-        registry.and().formLogin().loginPage("/token/login").permitAll();
+        registry.and().formLogin().loginPage("/login").permitAll();
+        registry.and()
+                // 登录并颁发token
+                .addFilter(new SecurityLoginFilter(authenticationManager()))
+                // 续签token
+                .addFilter(new SecurityAuthenticationFilter(authenticationManager()));
         // 对任何请求都进行权限验证
         registry.anyRequest().authenticated()
                 .and().csrf().disable();
         // @formatter:on
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // 自定义身份认证器
+        CustomDaoAuthenticationProvider daoAuthenticationProvider = new CustomDaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(customUserService);
+        auth.authenticationProvider(daoAuthenticationProvider);
     }
 
     /**
@@ -69,8 +94,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new PasswordLogoutSuccessHandler();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserService);
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

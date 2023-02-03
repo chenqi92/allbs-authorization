@@ -1,14 +1,13 @@
 package cn.allbs.allbsjwt.config.filter;
 
 import cn.allbs.allbsjwt.config.dto.LoginDTO;
-import cn.allbs.allbsjwt.config.enums.SystemCode;
 import cn.allbs.allbsjwt.config.grant.CustomJwtToken;
 import cn.allbs.allbsjwt.config.utils.TokenUtil;
+import cn.allbs.common.code.SystemCode;
 import cn.allbs.common.utils.R;
 import cn.allbs.common.utils.ResponseUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
@@ -24,9 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
-import static cn.allbs.allbsjwt.config.constant.CacheConstant.CACHE_TOKEN;
 
 /**
  * 类 SecurityLoginFilter
@@ -40,11 +36,8 @@ public class SecurityLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
 
-    private final RedisTemplate<Object, Object> redisTemplate;
-
-    public SecurityLoginFilter(AuthenticationManager authenticationManager, RedisTemplate<Object, Object> redisTemplate) {
+    public SecurityLoginFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        this.redisTemplate = redisTemplate;
     }
 
     /**
@@ -90,11 +83,9 @@ public class SecurityLoginFilter extends UsernamePasswordAuthenticationFilter {
         }
         // 生成并返回token给客户端，后续访问携带此token
         CustomJwtToken token = new CustomJwtToken(UUID.randomUUID().toString());
-        String tokenStr = TokenUtil.generateToken(auth);
-        token.setToken(tokenStr);
+        token.setToken(TokenUtil.generateToken(auth));
         token.setPermissions(auth.getAuthorities());
-        // redis中储存token
-        redisTemplate.opsForValue().set(CACHE_TOKEN + tokenStr, tokenStr, TokenUtil.EXPIRE_TIME, TimeUnit.MILLISECONDS);
+        // TODO 储存redis
         // 返回Token 相关信息
         ResponseUtil.out(response, R.ok(token));
         // 记录日志
@@ -112,8 +103,7 @@ public class SecurityLoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) throws IOException, ServletException {
-        // 使用的是自定义code:401003 所以在response中不能设置该自定义的code
-        ResponseUtil.write(response, SystemCode.USERNAME_OR_PASSWORD_ERROR);
+        ResponseUtil.out(response, R.fail(SystemCode.REQ_REJECT));
         // 记录日志
     }
 }
