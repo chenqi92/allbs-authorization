@@ -28,6 +28,8 @@ public enum SystemCode implements IResultCode {
     AUTHORIZATION_ERROR(401002, "权限处理逻辑出现异常!"),
 
     USERNAME_OR_PASSWORD_ERROR(401003, "用户名或密码错误"),
+
+    USER_NOT_FOUND_ERROR(401004, "不存在的用户名"),
     ;
 
     /**
