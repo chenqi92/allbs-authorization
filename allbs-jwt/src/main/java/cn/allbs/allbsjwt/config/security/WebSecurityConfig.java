@@ -8,6 +8,7 @@ import cn.allbs.allbsjwt.config.handler.PasswordLogoutSuccessHandler;
 import cn.allbs.allbsjwt.config.handler.PermitAllUrlProperties;
 import cn.allbs.allbsjwt.config.handler.SecurityLogoutHandler;
 import cn.allbs.allbsjwt.config.security.service.CustomUserServiceImpl;
+import cn.hutool.core.util.ArrayUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,7 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // 跨域检测
         registry.antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
         // 忽略鉴权的请求
-        permitAllUrlProperties.getIgnoreUrls().forEach(ignoreUrl -> registry.antMatchers(ignoreUrl).permitAll());
+        permitAllUrlProperties.getIgnoreUrls().forEach(ignoreUrl -> registry.antMatchers(HttpMethod.GET, ignoreUrl).permitAll());
+        permitAllUrlProperties.getIgnoreUrlsMap().forEach((k, v) -> registry.mvcMatchers(k, ArrayUtil.toArray(v, String.class)).permitAll());
         // 登出
         registry.and().logout().logoutUrl("/token/logout").addLogoutHandler(new SecurityLogoutHandler())
                 .deleteCookies("JSESSIONID")
