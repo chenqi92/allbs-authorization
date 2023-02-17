@@ -41,7 +41,7 @@ public class TokenUtil {
     /**
      * 有效期12小时
      */
-    private static final long EXPIRE_TIME = 12 * 60 * 60 * 1000;
+    public static final long EXPIRE_TIME = 12 * 60 * 60 * 1000;
 
     /**
      * 生成令牌

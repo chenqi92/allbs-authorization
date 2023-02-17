@@ -2,6 +2,7 @@ package cn.allbs.allbsjwt.config.filter;
 
 import cn.allbs.allbsjwt.config.utils.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static cn.allbs.allbsjwt.config.constant.CacheConstant.CACHE_TOKEN;
+
 /**
  * 类 SecurityAuthenticationFilter
  * </p>
@@ -30,15 +33,22 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
 
     private final UserDetailsService userDetailsService;
 
-    public TokenAuthenticationFilter(AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
+    private final RedisTemplate<Object, Object> redisTemplate;
+
+    public TokenAuthenticationFilter(AuthenticationManager authenticationManager, UserDetailsService userDetailsService, RedisTemplate<Object, Object> redisTemplate) {
         super(authenticationManager);
         this.userDetailsService = userDetailsService;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = TokenUtil.getToken(request);
-        // 如果token存在 则验证token是否正确和过期 TODO 去redis中判断token是否存在
+        if (!Boolean.TRUE.equals(redisTemplate.hasKey(CACHE_TOKEN + token))) {
+            chain.doFilter(request, response);
+            return;
+        }
+        // 如果token存在 则验证token是否正确和过期
         if (!TokenUtil.validateToken(token)) {
             // token 验证不通过
             chain.doFilter(request, response);

@@ -8,6 +8,7 @@ import cn.allbs.common.utils.R;
 import cn.allbs.common.utils.ResponseUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
@@ -23,6 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import static cn.allbs.allbsjwt.config.constant.CacheConstant.CACHE_TOKEN;
 
 /**
  * 类 SecurityLoginFilter
@@ -36,8 +40,11 @@ public class SecurityLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
 
-    public SecurityLoginFilter(AuthenticationManager authenticationManager) {
+    private final RedisTemplate<Object, Object> redisTemplate;
+
+    public SecurityLoginFilter(AuthenticationManager authenticationManager, RedisTemplate<Object, Object> redisTemplate) {
         this.authenticationManager = authenticationManager;
+        this.redisTemplate = redisTemplate;
     }
 
     /**
@@ -83,9 +90,11 @@ public class SecurityLoginFilter extends UsernamePasswordAuthenticationFilter {
         }
         // 生成并返回token给客户端，后续访问携带此token
         CustomJwtToken token = new CustomJwtToken(UUID.randomUUID().toString());
-        token.setToken(TokenUtil.generateToken(auth));
+        String tokenStr = TokenUtil.generateToken(auth);
+        token.setToken(tokenStr);
         token.setPermissions(auth.getAuthorities());
-        // TODO 储存redis
+        // redis中储存token
+        redisTemplate.opsForValue().set(CACHE_TOKEN + tokenStr, tokenStr, TokenUtil.EXPIRE_TIME, TimeUnit.MILLISECONDS);
         // 返回Token 相关信息
         ResponseUtil.out(response, R.ok(token));
         // 记录日志

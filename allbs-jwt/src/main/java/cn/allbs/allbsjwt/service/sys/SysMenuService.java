@@ -1,8 +1,8 @@
 package cn.allbs.allbsjwt.service.sys;
 
 import cn.allbs.allbsjwt.config.vo.MenuVO;
-import com.baomidou.mybatisplus.extension.service.IService;
 import cn.allbs.allbsjwt.entity.sys.SysMenuEntity;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
@@ -21,5 +21,21 @@ public interface SysMenuService extends IService<SysMenuEntity> {
      * @return 菜单列表
      */
     List<MenuVO> findMenuByRoleId(Long roleId);
+
+    /**
+     * 级联删除菜单
+     *
+     * @param id 菜单ID
+     * @return 成功、失败
+     */
+    Boolean removeMenuById(Long id);
+
+    /**
+     * 更新菜单信息
+     *
+     * @param sysMenu 菜单信息
+     * @return 成功、失败
+     */
+    Boolean updateMenuById(SysMenuEntity sysMenu);
 
 }
