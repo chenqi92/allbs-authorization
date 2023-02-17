@@ -1,7 +1,7 @@
 package cn.allbs.allbsjwt.config.security;
 
-import cn.allbs.allbsjwt.config.filter.SecurityAuthenticationFilter;
 import cn.allbs.allbsjwt.config.filter.SecurityLoginFilter;
+import cn.allbs.allbsjwt.config.filter.TokenAuthenticationFilter;
 import cn.allbs.allbsjwt.config.grant.CustomDaoAuthenticationProvider;
 import cn.allbs.allbsjwt.config.handler.Http401AuthenticationEntryPoint;
 import cn.allbs.allbsjwt.config.handler.PasswordLogoutSuccessHandler;
@@ -18,7 +18,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 /**
@@ -60,12 +62,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         registry.and().formLogin().loginPage("/login").permitAll();
         registry.and()
                 // 登录并颁发token
-                .addFilter(new SecurityLoginFilter(authenticationManager()))
-                // 续签token
-                .addFilter(new SecurityAuthenticationFilter(authenticationManager()));
+                .addFilter(new SecurityLoginFilter(authenticationManager()));
         // 对任何请求都进行权限验证
         registry.anyRequest().authenticated()
                 .and().csrf().disable();
+        registry.and()
+                // 移除session
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        // 验证续签token
+        registry.and().addFilterBefore(new TokenAuthenticationFilter(authenticationManager(), customUserService), UsernamePasswordAuthenticationFilter.class);
         // @formatter:on
     }
 
@@ -79,7 +85,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // 自定义身份认证器
         CustomDaoAuthenticationProvider daoAuthenticationProvider = new CustomDaoAuthenticationProvider();
+        // 指定加密方式
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        // 用户账号密码、权限等信息获取
         daoAuthenticationProvider.setUserDetailsService(customUserService);
         auth.authenticationProvider(daoAuthenticationProvider);
     }

@@ -1,9 +1,9 @@
 package cn.allbs.allbsjwt.config.filter;
 
 import cn.allbs.allbsjwt.config.dto.LoginDTO;
+import cn.allbs.allbsjwt.config.enums.SystemCode;
 import cn.allbs.allbsjwt.config.grant.CustomJwtToken;
 import cn.allbs.allbsjwt.config.utils.TokenUtil;
-import cn.allbs.common.code.SystemCode;
 import cn.allbs.common.utils.R;
 import cn.allbs.common.utils.ResponseUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -103,7 +103,8 @@ public class SecurityLoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) throws IOException, ServletException {
-        ResponseUtil.out(response, R.fail(SystemCode.REQ_REJECT));
+        // 使用的是自定义code:401003 所以在response中不能设置该自定义的code
+        ResponseUtil.write(response, SystemCode.USERNAME_OR_PASSWORD_ERROR);
         // 记录日志
     }
 }

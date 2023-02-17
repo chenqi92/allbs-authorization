@@ -120,7 +120,7 @@ public class TokenUtil {
      */
     public static boolean validateToken(String token) {
         if (StringUtils.isEmpty(token)) {
-            throw new RuntimeException("Miss token");
+            return false;
         }
         try {
             Jwts.parser()
