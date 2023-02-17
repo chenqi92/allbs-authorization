@@ -12,6 +12,7 @@ import cn.hutool.core.util.ArrayUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -41,6 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomUserServiceImpl customUserService;
 
+    private final RedisTemplate<Object, Object> redisTemplate;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
@@ -57,14 +60,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         permitAllUrlProperties.getIgnoreUrls().forEach(ignoreUrl -> registry.antMatchers(HttpMethod.GET, ignoreUrl).permitAll());
         permitAllUrlProperties.getIgnoreUrlsMap().forEach((k, v) -> registry.mvcMatchers(k, ArrayUtil.toArray(v, String.class)).permitAll());
         // 登出
-        registry.and().logout().logoutUrl("/token/logout").addLogoutHandler(new SecurityLogoutHandler())
+        registry.and().logout().logoutUrl("/token/logout").addLogoutHandler(new SecurityLogoutHandler(redisTemplate))
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessHandler(logoutSuccessHandler());
         // 登录
         registry.and().formLogin().loginPage("/login").permitAll();
         registry.and()
                 // 登录并颁发token
-                .addFilter(new SecurityLoginFilter(authenticationManager()));
+                .addFilter(new SecurityLoginFilter(authenticationManager(), redisTemplate));
         // 对任何请求都进行权限验证
         registry.anyRequest().authenticated()
                 .and().csrf().disable();
@@ -73,7 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // 验证续签token
-        registry.and().addFilterBefore(new TokenAuthenticationFilter(authenticationManager(), customUserService), UsernamePasswordAuthenticationFilter.class);
+        registry.and().addFilterBefore(new TokenAuthenticationFilter(authenticationManager(), customUserService, redisTemplate), UsernamePasswordAuthenticationFilter.class);
         // @formatter:on
     }
 

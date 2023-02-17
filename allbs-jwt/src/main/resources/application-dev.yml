@@ -10,6 +10,15 @@ spring:
       stat-view-servlet:
         enabled: true
         url-pattern: /druid/*
+  redis:
+    database: 2
+    host: ${REDIS_HOST_DEV:127.0.0.1}
+    port: 6379
+    password: ${REDIS_PWD_DEV:123456}
+    timeout: 5000
+    lettuce:
+      pool:
+        min-idle: 2
 # mybatis plus 配置
 mybatis-plus:
   mapper-locations: classpath*:mapper/*/*.xml

@@ -1,7 +1,6 @@
 package cn.allbs.allbsjwt.config.vo;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.userdetails.User;
@@ -34,13 +33,6 @@ public class SysUser extends User {
      */
     @Getter
     private final String avatar;
-
-    /**
-     * 是否为网格员片区总管(0:不是,1:是)
-     */
-    @Getter
-    @Setter
-    private Integer isGridHeadUser;
 
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 

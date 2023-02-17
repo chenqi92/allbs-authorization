@@ -88,6 +88,11 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
+        <dependency>
+            <groupId>cn.allbs</groupId>
+            <artifactId>allbs-cache</artifactId>
+            <version>${allbs.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
