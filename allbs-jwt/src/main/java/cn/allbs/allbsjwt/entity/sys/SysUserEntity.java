@@ -35,7 +35,7 @@ public class SysUserEntity {
     private String password;
 
     @ApiModelProperty(value = "")
-    private String salt;
+    private transient String salt;
 
     @ApiModelProperty(value = "")
     private String phone;

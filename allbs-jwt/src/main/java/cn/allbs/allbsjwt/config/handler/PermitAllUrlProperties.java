@@ -96,4 +96,5 @@ public class PermitAllUrlProperties implements InitializingBean {
             ignoreUrlsMap.get(HttpMethod.resolve(CollUtil.join(methodList, StrUtil.COMMA))).add(resultUrl);
         }
     }
+
 }

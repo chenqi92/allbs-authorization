@@ -19,10 +19,14 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static cn.allbs.allbsjwt.config.constant.CacheConstant.USER_DETAILS;
 
 /**
  * 用户表(sys_user)表服务实现类
@@ -42,6 +46,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
     private final SysRoleService sysRoleService;
 
+    private final CacheManager cacheManager;
+
     /**
      * 根据用户名查询用户信息
      *
@@ -50,11 +56,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
      */
     @Override
     public UserInfo findUserInfoByUserName(String username) {
+        Cache cache = cacheManager.getCache(USER_DETAILS);
+        if (cache != null && cache.get(username) != null) {
+            return cache.get(username, UserInfo.class);
+        }
         SysUserEntity sysUserEntity = sysUserDao.selectOne(Wrappers.<SysUserEntity>query().lambda().eq(SysUserEntity::getUsername, username));
         if (BeanUtil.isEmpty(sysUserEntity)) {
             throw new AuthorizationException("不存在的用户名");
         }
-        return this.getUserInfo(sysUserEntity);
+        UserInfo userInfo = this.getUserInfo(sysUserEntity);
+        assert cache != null;
+        cache.put(username, userInfo);
+        return userInfo;
     }
 
     /**
