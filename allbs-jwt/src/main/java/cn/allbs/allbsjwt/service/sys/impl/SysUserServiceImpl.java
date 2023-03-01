@@ -4,9 +4,11 @@ import cn.allbs.allbsjwt.config.dto.UserInfo;
 import cn.allbs.allbsjwt.config.exception.AuthorizationException;
 import cn.allbs.allbsjwt.config.vo.MenuVO;
 import cn.allbs.allbsjwt.dao.sys.SysUserDao;
+import cn.allbs.allbsjwt.entity.cm.CmEnterpriseEntity;
 import cn.allbs.allbsjwt.entity.sys.SysRoleEntity;
 import cn.allbs.allbsjwt.entity.sys.SysUserEntity;
 import cn.allbs.allbsjwt.entity.sys.SysUserRoleEntity;
+import cn.allbs.allbsjwt.service.cm.CmEnterpriseService;
 import cn.allbs.allbsjwt.service.sys.SysMenuService;
 import cn.allbs.allbsjwt.service.sys.SysRoleService;
 import cn.allbs.allbsjwt.service.sys.SysUserRoleService;
@@ -47,6 +49,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     private final SysRoleService sysRoleService;
 
     private final CacheManager cacheManager;
+
+    private final CmEnterpriseService cmEnterpriseService;
 
     /**
      * 根据用户名查询用户信息
@@ -98,6 +102,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
         if (CollUtil.isNotEmpty(roleEntities)) {
             userInfo.setRoleName(ArrayUtil.toArray(roleEntities.stream().map(SysRoleEntity::getRoleName).collect(Collectors.toList()), String.class));
         }
+        // 查询该用户的企业列表
+        List<CmEnterpriseEntity> entList = cmEnterpriseService.findEntListByUserId(user.getUserId());
+        userInfo.setEntIds(entList.stream().map(CmEnterpriseEntity::getId).collect(Collectors.toSet()));
         return userInfo;
     }
 }

@@ -1,5 +1,6 @@
 package cn.allbs.allbsjwt.config.grant;
 
+import cn.allbs.allbsjwt.config.vo.SysUser;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
@@ -65,7 +66,7 @@ public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
 
         // 手机号
         String userName = authentication.getName();
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);
+        SysUser userDetails = (SysUser) this.userDetailsService.loadUserByUsername(userName);
 
         // 校验账号是否禁用
         preAuthenticationChecks.check(userDetails);
@@ -75,7 +76,7 @@ public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
                 (UsernamePasswordAuthenticationToken) authentication);
 
         // 提供用户名、密码、权限列表供SecurityLoginFilter使用
-        return new UsernamePasswordAuthenticationToken(userName, userDetails.getPassword(), userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
     }
 
     @Override
