@@ -1,8 +1,11 @@
 package cn.allbs.allbsjwt.config.utils;
 
+import cn.allbs.allbsjwt.config.vo.SysUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Optional;
 
 /**
  * 类 SecurityUtils
@@ -50,6 +53,29 @@ public class SecurityUtils {
     }
 
     /**
+     * 获取当前用户信息
+     */
+    public static SysUser getUser() {
+        Authentication authentication = getAuthentication();
+        return getUser(authentication);
+    }
+
+    /**
+     * 获取用户
+     *
+     * @param authentication
+     * @return GatherUser
+     * <p>
+     */
+    public static SysUser getUser(Authentication authentication) {
+        Object principal = Optional.ofNullable(authentication).map(Authentication::getPrincipal).orElse(null);
+        if (principal instanceof SysUser) {
+            return (SysUser) principal;
+        }
+        return null;
+    }
+
+    /**
      * 获取当前登录信息
      *
      * @return
@@ -58,8 +84,7 @@ public class SecurityUtils {
         if (SecurityContextHolder.getContext() == null) {
             return null;
         }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication;
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 
 }
