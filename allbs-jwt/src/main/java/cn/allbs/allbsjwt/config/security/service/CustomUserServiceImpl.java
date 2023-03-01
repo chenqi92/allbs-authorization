@@ -15,10 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -44,8 +41,7 @@ public class CustomUserServiceImpl implements UserDetailsService {
         }
         // 权限标识的集合
         Set<String> dbAuthsSet = new HashSet<>(Arrays.asList(userInfo.getPermissions()));
-        Collection<? extends GrantedAuthority> authorities
-                = AuthorityUtils.createAuthorityList(dbAuthsSet.toArray(new String[0]));
+        Collection<? extends GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(dbAuthsSet.toArray(new String[0]));
         SysUserEntity user = userInfo.getSysUser();
         // 判断用户是否为正常使用的状态
         boolean enabled = StrUtil.equals(user.getLockFlag(), SecurityConstant.STATUS_NORMAL);
@@ -68,7 +64,8 @@ public class CustomUserServiceImpl implements UserDetailsService {
                 // 判断用户是否为锁定状态
                 !SecurityConstant.STATUS_LOCK.equals(user.getLockFlag()),
                 // 权限列表
-                authorities
+                authorities,
+                Optional.ofNullable(userInfo.getEntIds()).orElse(new HashSet<>())
         );
         // @formatter:on
     }

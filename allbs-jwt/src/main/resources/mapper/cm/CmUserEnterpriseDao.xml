@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.allbs.allbsjwt.dao.cm.CmUserEnterpriseDao">
+    <resultMap type="cn.allbs.allbsjwt.entity.cm.CmUserEnterpriseEntity" id="CmUserEnterpriseMap">
+        <result property="userId" column="user_id"/>
+        <result property="entId" column="ent_id"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+        user_id,
+        ent_id
+    </sql>
+</mapper>
