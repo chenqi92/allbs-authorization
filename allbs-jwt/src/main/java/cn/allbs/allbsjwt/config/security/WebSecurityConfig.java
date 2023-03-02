@@ -3,10 +3,7 @@ package cn.allbs.allbsjwt.config.security;
 import cn.allbs.allbsjwt.config.filter.SecurityLoginFilter;
 import cn.allbs.allbsjwt.config.filter.TokenAuthenticationFilter;
 import cn.allbs.allbsjwt.config.grant.CustomDaoAuthenticationProvider;
-import cn.allbs.allbsjwt.config.handler.Http401AuthenticationEntryPoint;
-import cn.allbs.allbsjwt.config.handler.PasswordLogoutSuccessHandler;
-import cn.allbs.allbsjwt.config.handler.PermitAllUrlProperties;
-import cn.allbs.allbsjwt.config.handler.SecurityLogoutHandler;
+import cn.allbs.allbsjwt.config.handler.*;
 import cn.allbs.allbsjwt.config.security.service.CustomUserServiceImpl;
 import cn.hutool.core.util.ArrayUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +13,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -35,6 +33,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -51,6 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
         // 需要权限验证的提示code和文字说明自定义
         http.exceptionHandling().authenticationEntryPoint(new Http401AuthenticationEntryPoint());
+        // 自定义403forbidden
+        http.exceptionHandling().accessDeniedHandler(new Http403AccessDeniedEntryPoint());
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>
                 .ExpressionInterceptUrlRegistry registry = http
                 .authorizeRequests();
