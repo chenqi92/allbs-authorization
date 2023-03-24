@@ -10,6 +10,15 @@ spring:
       stat-view-servlet:
         enabled: true
         url-pattern: /druid/*
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+          enabled: true
+        wall:
+          config:
+            multi-statement-allow: true
   redis:
     database: 2
     host: ${REDIS_HOST_DEV:127.0.0.1}
@@ -28,9 +37,14 @@ mybatis-plus:
       id-type: auto
       logic-delete-value: 1
       logic-not-delete-value: 0
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   type-handlers-package: com.allbs.allbsjwt.config.handler
+  show-sql: true
+  meta-custom:
+    del-flg: delFlag
+    create-name: createId
+    update-name: updateId
 # swagger3
 swagger:
   title: jwt示例

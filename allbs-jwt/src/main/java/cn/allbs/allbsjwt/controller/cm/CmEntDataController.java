@@ -53,7 +53,7 @@ public class CmEntDataController {
      */
     @ApiOperation(value = "通过id查询", notes = "通过id查询")
     @GetMapping("/{id}")
-    @PreAuthorize("@pms.hasPermission('cmEntData_list')")
+//    @PreAuthorize("@pms.hasPermission('cmEntData_list')")
     public R getById(@PathVariable("id") Long id) {
         return R.ok(this.cmEntDataService.getById(id));
     }
@@ -66,7 +66,7 @@ public class CmEntDataController {
      */
     @ApiOperation(value = "新增用户数据测试的表", notes = "新增用户数据测试的表")
     @PostMapping
-    @PreAuthorize("@pms.hasPermission('cmEntData_save')")
+//    @PreAuthorize("@pms.hasPermission('cmEntData_save')")
     public R save(@RequestBody CmEntDataEntity cmEntDataEntity) {
         return R.ok(this.cmEntDataService.save(cmEntDataEntity));
     }
@@ -79,7 +79,7 @@ public class CmEntDataController {
      */
     @ApiOperation(value = "修改用户数据测试的表", notes = "修改用户数据测试的表")
     @PutMapping
-    @PreAuthorize("@pms.hasPermission('cmEntData_update')")
+//    @PreAuthorize("@pms.hasPermission('cmEntData_update')")
     public R updateById(@RequestBody CmEntDataEntity cmEntDataEntity) {
         return R.ok(this.cmEntDataService.updateById(cmEntDataEntity));
     }
@@ -90,7 +90,7 @@ public class CmEntDataController {
      * @param id 主键
      * @return R
      */
-    @PreAuthorize("@pms.hasPermission('cmEntData_delete')")
+//    @PreAuthorize("@pms.hasPermission('cmEntData_delete')")
     @ApiOperation(value = "通过id 删除用户数据测试的表", notes = "通过id 删除用户数据测试的表")
     @DeleteMapping("/{id}")
     public R removeById(@PathVariable("id") Long id) {

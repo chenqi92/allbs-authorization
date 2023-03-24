@@ -2,8 +2,9 @@ package cn.allbs.allbsjwt.config.datascope;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.springframework.lang.Nullable;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 类 DataScopeAnnotationIntercept
