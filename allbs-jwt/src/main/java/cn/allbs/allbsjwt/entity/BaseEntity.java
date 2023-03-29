@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Data
 public class BaseEntity {
 
-//    @TableLogic
+    @TableLogic
     @TableField(fill = FieldFill.INSERT)
     private Integer delFlag;
 
