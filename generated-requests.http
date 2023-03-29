@@ -1,0 +1,47 @@
+### 用来测试数据筛选
+### 登录请求
+POST localhost:8888/login
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "123456"
+}
+
+### 分页查询
+GET http://localhost:8888/cm/ent/data/page
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODAxMDIzODAsInN1YiI6InRlc3QiLCJjcmVhdGVkIjoxNjgwMDU5MTgwNjI3fQ.le3xdiyciQ7Q29LODmQEcM8z28kq7RtThhbAx-QlyNPrtWWxZmbc1Iq-Jr9ci5A5TKRysBmwCR2h-rh3G2TfdA
+
+### 数据插入
+POST http://localhost:8888/cm/ent/data
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODAxMDIzODAsInN1YiI6InRlc3QiLCJjcmVhdGVkIjoxNjgwMDU5MTgwNjI3fQ.le3xdiyciQ7Q29LODmQEcM8z28kq7RtThhbAx-QlyNPrtWWxZmbc1Iq-Jr9ci5A5TKRysBmwCR2h-rh3G2TfdA
+Content-Type: application/json
+
+{
+  "entId": 3,
+  "description": "这是单独插入的数据"
+}
+
+### 数据更新
+PUT http://localhost:8888/cm/ent/data
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODAxMDIzODAsInN1YiI6InRlc3QiLCJjcmVhdGVkIjoxNjgwMDU5MTgwNjI3fQ.le3xdiyciQ7Q29LODmQEcM8z28kq7RtThhbAx-QlyNPrtWWxZmbc1Iq-Jr9ci5A5TKRysBmwCR2h-rh3G2TfdA
+Content-Type: application/json
+
+{
+  "id": 42,
+  "entId": 2,
+  "description": "这是单独修改的数据"
+}
+
+### 删除指定
+DELETE http://localhost:8888/cm/ent/data/27
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODAxMDIzODAsInN1YiI6InRlc3QiLCJjcmVhdGVkIjoxNjgwMDU5MTgwNjI3fQ.le3xdiyciQ7Q29LODmQEcM8z28kq7RtThhbAx-QlyNPrtWWxZmbc1Iq-Jr9ci5A5TKRysBmwCR2h-rh3G2TfdA
+
+###
+POST http://localhost:8888/cm/ent/data/custom
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODAxMDIzODAsInN1YiI6InRlc3QiLCJjcmVhdGVkIjoxNjgwMDU5MTgwNjI3fQ.le3xdiyciQ7Q29LODmQEcM8z28kq7RtThhbAx-QlyNPrtWWxZmbc1Iq-Jr9ci5A5TKRysBmwCR2h-rh3G2TfdA
+
+### 测试自定义mapper
+GET http://localhost:8888/cm/ent/data/test/3
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODAxMDIzODAsInN1YiI6InRlc3QiLCJjcmVhdGVkIjoxNjgwMDU5MTgwNjI3fQ.le3xdiyciQ7Q29LODmQEcM8z28kq7RtThhbAx-QlyNPrtWWxZmbc1Iq-Jr9ci5A5TKRysBmwCR2h-rh3G2TfdA
+

@@ -12,4 +12,10 @@
         ent_id,
         description
     </sql>
+
+    <select id="customList" resultMap="CmEntDataMap">
+        select ced.id, ced.ent_id, ced.description,ce.name
+        from cm_ent_data ced left join cm_enterprise ce on ced.ent_id = ce.id
+        where ced.create_id = 'test'
+    </select>
 </mapper>

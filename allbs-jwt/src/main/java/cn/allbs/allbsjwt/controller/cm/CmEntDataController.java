@@ -9,8 +9,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 用户数据测试的表(cm_ent_data)表控制层
@@ -95,6 +96,13 @@ public class CmEntDataController {
     @DeleteMapping("/{id}")
     public R removeById(@PathVariable("id") Long id) {
         return R.ok(this.cmEntDataService.removeById(id));
+    }
+
+    @GetMapping("/test/{id}")
+    public R testCustomMapper(@PathVariable("id") Long id) {
+        List<CmEntDataEntity> cmEntDataEntityList = this.cmEntDataService.customList();
+        CmEntDataEntity cmEntDataEntity = this.cmEntDataService.getById(id);
+        return R.ok(cmEntDataEntityList);
     }
 
 }

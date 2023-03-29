@@ -1,8 +1,11 @@
 package cn.allbs.allbsjwt.dao.cm;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import cn.allbs.allbsjwt.config.datascope.mapper.DataScopeMapper;
 import cn.allbs.allbsjwt.entity.cm.CmEntDataEntity;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * 用户数据测试的表(cm_ent_data)表数据库访问层
@@ -11,6 +14,8 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2023-03-01 09:48:53
  */
 @Mapper
-public interface CmEntDataDao extends BaseMapper<CmEntDataEntity> {
+public interface CmEntDataDao extends DataScopeMapper<CmEntDataEntity> {
+
+    List<CmEntDataEntity> customList();
 
 }

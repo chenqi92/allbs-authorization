@@ -39,7 +39,7 @@ public class CmEnterpriseController {
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page")
-    @PreAuthorize("@pms.hasPermission('cmEnterprise_list')")
+//    @PreAuthorize("@pms.hasPermission('cmEnterprise_list')")
     public R getCmEnterprisePage(Page page, CmEnterpriseEntity cmEnterpriseEntity) {
         return R.ok(this.cmEnterpriseService.page(page, Wrappers.query(cmEnterpriseEntity)));
     }
