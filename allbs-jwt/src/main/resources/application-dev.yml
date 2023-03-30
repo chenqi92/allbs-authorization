@@ -45,6 +45,9 @@ mybatis-plus:
     del-flg: delFlag
     create-name: createId
     update-name: updateId
+  chine-rate: 1.5
+  data-pms: true
+
 # swagger3
 swagger:
   title: jwt示例

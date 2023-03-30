@@ -53,7 +53,7 @@ public class CmEnterpriseController {
      */
     @ApiOperation(value = "通过id查询", notes = "通过id查询")
     @GetMapping("/{id}")
-    @PreAuthorize("@pms.hasPermission('cmEnterprise_list')")
+//    @PreAuthorize("@pms.hasPermission('cmEnterprise_list')")
     public R getById(@PathVariable("id") Long id) {
         return R.ok(this.cmEnterpriseService.getById(id));
     }

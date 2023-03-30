@@ -1,14 +1,16 @@
 package cn.allbs.allbsjwt.entity.cm;
 
 
-import java.time.LocalDateTime;
-
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+import cn.allbs.mybatis.datascope.ScopeField;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import com.baomidou.mybatisplus.annotation.*;
+
+import java.time.LocalDateTime;
 
 /**
  * 企业信息表(cm_enterprise)表实体类
@@ -19,6 +21,7 @@ import com.baomidou.mybatisplus.annotation.*;
 @Data
 @ApiModel(value = "企业信息表")
 @TableName("cm_enterprise")
+@ScopeField("id")
 public class CmEnterpriseEntity {
 
     private static final long serialVersionUID = 312203613772143112L;
