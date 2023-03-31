@@ -11,6 +11,9 @@ import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 用户数据测试的表(cm_ent_data)表控制层
  *
@@ -95,4 +98,56 @@ public class CmEntDataController {
     public R removeById(@PathVariable("id") Long id) {
         return R.ok(this.cmEntDataService.removeById(id));
     }
+
+    @GetMapping("/test/{id}")
+    public R testCustomMapper(@PathVariable("id") Long id) {
+        List<CmEntDataEntity> cmEntDataEntityList = this.cmEntDataService.customList();
+        CmEntDataEntity cmEntDataEntity = this.cmEntDataService.getById(id);
+        return R.ok(cmEntDataEntityList);
+    }
+
+    /**
+     * 新增 用户数据测试的表
+     *
+     * @param list 用户数据测试的表
+     * @return R
+     */
+    @ApiOperation(value = "新增用户数据测试的表", notes = "新增用户数据测试的表")
+    @PostMapping("batchSave")
+//    @PreAuthorize("@pms.hasPermission('cmEntData_save')")
+    public R batchSave(@RequestBody List<CmEntDataEntity> list) {
+        return R.ok(this.cmEntDataService.saveBatch(list));
+    }
+
+    /**
+     * 修改用户数据测试的表
+     *
+     * @param list 用户数据测试的表
+     * @return R
+     */
+    @ApiOperation(value = "修改用户数据测试的表", notes = "修改用户数据测试的表")
+    @PutMapping("batchUpdateById")
+//    @PreAuthorize("@pms.hasPermission('cmEntData_update')")
+    public R batchUpdateById(@RequestBody List<CmEntDataEntity> list) {
+        return R.ok(this.cmEntDataService.updateBatchById(list));
+    }
+
+    /**
+     * 通过id 删除用户数据测试的表
+     *
+     * @param
+     * @return R
+     */
+//    @PreAuthorize("@pms.hasPermission('cmEntData_delete')")
+    @ApiOperation(value = "通过id 删除用户数据测试的表", notes = "通过id 删除用户数据测试的表")
+    @DeleteMapping("batchRemoveById")
+    public R batchRemoveById() {
+        List<Long> ids = new ArrayList<>();
+        ids.add(81L);
+        ids.add(82L);
+        ids.add(83L);
+        ids.add(84L);
+        return R.ok(this.cmEntDataService.removeBatchByIds(ids));
+    }
+
 }
