@@ -1,4 +1,4 @@
-package cn.allbs.allbsjwt.config.datascope.mapper;
+package cn.allbs.allbsjwt.config.datascope;
 
 import cn.allbs.allbsjwt.config.utils.SecurityUtils;
 import cn.allbs.allbsjwt.config.vo.SysUser;
