@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 ```
 
-![image-20230201141211528](https://nas.allbs.cn:9006/cloudpic/2023/02/d277c2a17bf657778605feab47a593f2.png)
+![image-20230201141211528](https://mf.allbs.cn/cloudpic/2023/02/d277c2a17bf657778605feab47a593f2.png)
 
 ##### 将写死的需要放开的url添加至yml中
 
@@ -176,7 +176,7 @@ public class Http401AuthenticationEntryPoint implements AuthenticationEntryPoint
 http.exceptionHandling().authenticationEntryPoint(new Http401AuthenticationEntryPoint());
 ```
 
-![image-20230201151758035](https://nas.allbs.cn:9006/cloudpic/2023/02/7dbf304076b2977703179080f93e3be2.png)
+![image-20230201151758035](https://mf.allbs.cn/cloudpic/2023/02/7dbf304076b2977703179080f93e3be2.png)
 
 ##### 与数据库联动
 
@@ -871,14 +871,14 @@ protected void configure(HttpSecurity http) throws Exception {
 
 至此，从数据库中登录，获取用户名、密码、菜单、权限，登出功能已完成
 
-![](https://nas.allbs.cn:9006/cloudpic/2023/02/bb6822021c3730ef3d8dbbf1859752bd.gif)
+![](https://mf.allbs.cn/cloudpic/2023/02/bb6822021c3730ef3d8dbbf1859752bd.gif)
 
 ##### 资源访问权限
 新增`PermissionService`用于接口指定访问权限
 
 在`WebSecurityConfig`中添加注解`@EnableGlobalMethodSecurity(prePostEnabled=true)`
 
-![image-20230302160327406](https://nas.allbs.cn:9006/cloudpic/2023/03/bd222e8004847bfde5cfd7092aab9b87.png)
+![image-20230302160327406](https://mf.allbs.cn/cloudpic/2023/03/bd222e8004847bfde5cfd7092aab9b87.png)
 
 如果用户的权限列表中不包含该权限则不允许访问。一般用于按钮级别权限的控制。
 
@@ -924,15 +924,15 @@ public class PermissionService {
 
 测试，添加两个接口，一个接口含有permission中的字符串，一个没有。@PreAuthorize 使用时如果没有权限将不会进入方法。
 
-![image-20230302160427598](https://nas.allbs.cn:9006/cloudpic/2023/03/66a7af9d2d6db52a8a0b80afac93a949.png)
+![image-20230302160427598](https://mf.allbs.cn/cloudpic/2023/03/66a7af9d2d6db52a8a0b80afac93a949.png)
 
-![image-20230302160500380](https://nas.allbs.cn:9006/cloudpic/2023/03/9e96c08575f5a272b38a4484c617861c.png)
+![image-20230302160500380](https://mf.allbs.cn/cloudpic/2023/03/9e96c08575f5a272b38a4484c617861c.png)
 
 postman调用结果
 
-![image-20230302160533945](https://nas.allbs.cn:9006/cloudpic/2023/03/6e8df2153d95a39b6434d6e295a8c49a.png)
+![image-20230302160533945](https://mf.allbs.cn/cloudpic/2023/03/6e8df2153d95a39b6434d6e295a8c49a.png)
 
-![image-20230302160548646](https://nas.allbs.cn:9006/cloudpic/2023/03/002f7b00850d1036adddb2e5c043706e.png)
+![image-20230302160548646](https://mf.allbs.cn/cloudpic/2023/03/002f7b00850d1036adddb2e5c043706e.png)
 
 统一403返回格式
 
@@ -952,25 +952,25 @@ public class Http403AccessDeniedEntryPoint implements AccessDeniedHandler {
 HttpSecurity.exceptionHandling().accessDeniedHandler(new Http403AccessDeniedEntryPoint());
 ```
 
-![image-20230302162022243](https://nas.allbs.cn:9006/cloudpic/2023/03/0e569ff7a3d2730bb618dfb7d2fb35cc.png)
+![image-20230302162022243](https://mf.allbs.cn/cloudpic/2023/03/0e569ff7a3d2730bb618dfb7d2fb35cc.png)
 
 权限控制 没有权限,方法依然执行但是不会返回
 
-![image-20230302163807705](https://nas.allbs.cn:9006/cloudpic/2023/03/6966cdb50606ced2d3529cc51e2d57dd.png)
+![image-20230302163807705](https://mf.allbs.cn/cloudpic/2023/03/6966cdb50606ced2d3529cc51e2d57dd.png)
 
 使用场景，比如只允许用户查询自己的用户信息。
 
-![image-20230302171653246](https://nas.allbs.cn:9006/cloudpic/2023/03/5781e2d0aa4661c45b2f97c7f07877bc.png)
+![image-20230302171653246](https://mf.allbs.cn/cloudpic/2023/03/5781e2d0aa4661c45b2f97c7f07877bc.png)
 
-![image-20230302171749403](https://nas.allbs.cn:9006/cloudpic/2023/03/1897a99cdcc0041dce45f3ad01d8f91a.png)
+![image-20230302171749403](https://mf.allbs.cn/cloudpic/2023/03/1897a99cdcc0041dce45f3ad01d8f91a.png)
 
 对返回结果进行过滤
 
-![image-20230302163927147](https://nas.allbs.cn:9006/cloudpic/2023/03/6d1082c22c015cff5389657d2608ade8.png)
+![image-20230302163927147](https://mf.allbs.cn/cloudpic/2023/03/6d1082c22c015cff5389657d2608ade8.png)
 
 对请求参数进行过滤
 
-![image-20230302170553274](https://nas.allbs.cn:9006/cloudpic/2023/03/6dde253509e5a33750f0f3eeac149e35.png)
+![image-20230302170553274](https://mf.allbs.cn/cloudpic/2023/03/6dde253509e5a33750f0f3eeac149e35.png)
 
 #### oauth2.0
 
@@ -1702,7 +1702,7 @@ INSERT INTO authorization_demo.cm_ent_data (id, ent_id, description) VALUES (7, 
 
 {% endnote %}
 
-![image-20230301094847498](https://nas.allbs.cn:9006/cloudpic/2023/03/97f27c824b17b745358ee22e21accf11.png)
+![image-20230301094847498](https://mf.allbs.cn/cloudpic/2023/03/97f27c824b17b745358ee22e21accf11.png)
 
 #### 登录时查询用户关联的企业列表并缓存，当然如果怕影响登录速度，可以在登录后执行一个异步方法进行相关操作
 
@@ -1712,13 +1712,13 @@ INSERT INTO authorization_demo.cm_ent_data (id, ent_id, description) VALUES (7, 
 
 ##### 未加`dataScope`注解查询企业数据测试表，结果显示查出全部数据
 
-![image-20230301102316946](https://nas.allbs.cn:9006/cloudpic/2023/03/7af1952da271a654e6e9cc2119b73455.png)
+![image-20230301102316946](https://mf.allbs.cn/cloudpic/2023/03/7af1952da271a654e6e9cc2119b73455.png)
 
 ##### 添加注解测试，用户admin关联企业1、2、3查询结果符合期望
 
-![image-20230301104139695](https://nas.allbs.cn:9006/cloudpic/2023/03/8189c65b2afd18f887551a81c36da4e0.png)
+![image-20230301104139695](https://mf.allbs.cn/cloudpic/2023/03/8189c65b2afd18f887551a81c36da4e0.png)
 
-![image-20230301103938748](https://nas.allbs.cn:9006/cloudpic/2023/03/2c4b94df337feaeb62ce22ad6535f11c.png)
+![image-20230301103938748](https://mf.allbs.cn/cloudpic/2023/03/2c4b94df337feaeb62ce22ad6535f11c.png)
 
 #### 现在有个需求，根据前端需要查询的企业进行数据筛选
 
@@ -1826,19 +1826,19 @@ if (entIdList != null) {
 }
 ```
 
-![image-20230301104910292](https://nas.allbs.cn:9006/cloudpic/2023/03/5b6208d74a985394383c8665687087b8.png)
+![image-20230301104910292](https://mf.allbs.cn/cloudpic/2023/03/5b6208d74a985394383c8665687087b8.png)
 
 #### 进行测试
 
 ##### 在添加`dataScope`的情况下只查询到企业符合期望
 
-![image-20230301105235512](https://nas.allbs.cn:9006/cloudpic/2023/03/7f3657985029bd5d94171cccae466be3.png)
+![image-20230301105235512](https://mf.allbs.cn/cloudpic/2023/03/7f3657985029bd5d94171cccae466be3.png)
 
 ##### 去掉`datascope`进行测试
 
 没有企业3的数据符合预期
 
-![image-20230301105532643](https://nas.allbs.cn:9006/cloudpic/2023/03/6315663c3904e58284a09e2f2ffe7484.png)
+![image-20230301105532643](https://mf.allbs.cn/cloudpic/2023/03/6315663c3904e58284a09e2f2ffe7484.png)
 
 ### 实现方式二
 
